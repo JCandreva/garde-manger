@@ -10,6 +10,7 @@ import { Label } from "./ui/label";
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
 import { Scanner } from "@yudiel/react-qr-scanner"
 import { createClient } from "@/utils/supabase/client";
+import i18n from "@/lib/i18n";
 
 export default function NewGroceryForm() {
   const user = useAppSelector((state) => state.user.user);
@@ -63,14 +64,14 @@ export default function NewGroceryForm() {
   return (
     <Tabs defaultValue="select">
       <TabsList>
-        <TabsTrigger value="select">Select Preset</TabsTrigger>
-        <TabsTrigger value="barcode">Input Barcode</TabsTrigger>
+        <TabsTrigger value="select">{i18n.t('groceryForm.selectTab')}</TabsTrigger>
+        <TabsTrigger value="barcode">{i18n.t('groceryForm.barcodeTab')}</TabsTrigger>
       </TabsList>
         <form onSubmit={handleSubmit} className="flex flex-col gap-[32px]">
       <TabsContent value="select">
           <Select onValueChange={(value) => setSelectedPreset(Number(value))}>
             <SelectTrigger className="w-full">
-              <SelectValue placeholder="Select a preset" />
+              <SelectValue placeholder={i18n.t('groceryForm.presetPlaceholder')} />
             </SelectTrigger>
             <SelectContent>
             {presets.map((preset) => (
@@ -87,7 +88,7 @@ export default function NewGroceryForm() {
                     type="text"
                     value={groceryBarcode}
                     onChange={(e) => setBarcode(e.target.value)}
-                    placeholder="Barcode"
+                  placeholder={i18n.t('groceryForm.barcodePlaceholder')}
                   />
                   <Dialog open={scannerOpen} onOpenChange={setScannerOpen}>
                     <DialogTrigger asChild>
@@ -95,9 +96,9 @@ export default function NewGroceryForm() {
                     </DialogTrigger>
                     <DialogContent>
                       <DialogHeader>
-                        <DialogTitle>Scan Barcode</DialogTitle>
+                        <DialogTitle>{i18n.t('groceryForm.scanTitle')}</DialogTitle>
                         <DialogDescription>
-                          Scan the barcode of the grocery item.
+                          {i18n.t('groceryForm.scanDescription')}
                         </DialogDescription>
                       </DialogHeader>
                       <Scanner formats={[
@@ -125,7 +126,7 @@ export default function NewGroceryForm() {
                     ]} onScan={(result) => {setBarcode(result[0].rawValue); setScannerOpen(false)}}/>
                     </DialogContent>
                   </Dialog>
-                  <Label>{presets.find(preset => preset.barcode === groceryBarcode)?.name || "no matching barcode"}</Label>
+                  <Label>{presets.find(preset => preset.barcode === groceryBarcode)?.name || i18n.t('groceryForm.barcodeMatchNone')}</Label>
                 </div>
               
              
@@ -134,18 +135,18 @@ export default function NewGroceryForm() {
                 type="number"
                 value={groceryQuantity}
                 onChange={(e) => setGroceryQuantity(Number(e.target.value))}
-                placeholder="Quantity"
+           placeholder={i18n.t('groceryForm.quantityPlaceholder')}
               />
               <Input
                 type="date"
                 value={new Date(groceryExpirationDate).toISOString().split("T")[0]}
                 onChange={(e) => setGroceryExpirationDate(new Date(e.target.value))}
-                placeholder="Expiration date"
+           placeholder={i18n.t('groceryForm.expirationPlaceholder')}
               />
               <DialogFooter>
               <DialogClose asChild>
               <Button type="submit" className="w-full">
-                <CirclePlus /> Add Grocery
+                <CirclePlus /> {i18n.t('groceryForm.submit')}
               </Button>
               </DialogClose>
               </DialogFooter>

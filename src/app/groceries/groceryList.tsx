@@ -9,6 +9,7 @@ import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, Di
 import { createClient } from "@/utils/supabase/client";
 import { useEffect, useState } from "react";
 import type { Database } from "@/database.types";
+import i18n from "@/lib/i18n";
 type preset = Database['public']['Tables']['preset']['Row']
 type grocery = Database['public']['Tables']['grocery']['Row']
 
@@ -125,25 +126,25 @@ export default function GroceryList() {
             <DialogTrigger asChild>
                 <Button
                     variant="destructive">
-                    <AlertTriangle />Remove expired groceries
+                    <AlertTriangle />{i18n.t('groceries.removeExpiredButton')}
                 </Button>
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>Remove expired groceries</DialogTitle>
+                    <DialogTitle>{i18n.t('groceries.removeExpiredTitle')}</DialogTitle>
                     <DialogDescription>
-                        Are you sure you want to remove all expired groceries? This action cannot be undone.
+                        {i18n.t('groceries.removeExpiredDescription')}
                     </DialogDescription>
                 </DialogHeader>
                 <DialogFooter>
                     <DialogClose asChild>
                     <Button variant="destructive" onClick={async () => await supabase.rpc('delete_expired_groceries', {})}>
-                        Remove
+                        {i18n.t('groceries.removeExpiredAction')}
                     </Button>
                     </DialogClose>
                     <DialogClose asChild>
                         <Button variant="ghost">
-                            Cancel
+                            {i18n.t('common.cancel')}
                         </Button>
                     </DialogClose>
                 </DialogFooter>
@@ -158,7 +159,7 @@ export default function GroceryList() {
 
           }}
           >
-            neighborhood(sunset)
+            {i18n.t('groceries.sunsetNeighborhood')}
           </Button>
         </div>
     );

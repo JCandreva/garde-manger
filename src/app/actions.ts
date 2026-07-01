@@ -28,7 +28,7 @@ export async function unsubscribeUser() {
  
 export async function sendNotification(title:string, message: string) {
   if (!subscription) {
-    throw new Error('No subscription available')
+    throw new Error('Nenhuma inscrição disponível')
   }
  
   try {
@@ -42,7 +42,7 @@ export async function sendNotification(title:string, message: string) {
     )
     return { success: true }
   } catch (error) {
-    console.error('Error sending push notification:', error)
-    return { success: false, error: 'Failed to send notification' }
+    console.error('Erro ao enviar notificação push:', error)
+    return { success: false, error: 'Falha ao enviar notificação' }
   }
 }

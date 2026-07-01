@@ -5,6 +5,7 @@ import { useAppSelector } from "@/lib/hooks";
 import { createClient } from "@/utils/supabase/client";
 import { Label } from "@/components/ui/label";
 import { useEffect, useState } from "react";
+import i18n from "@/lib/i18n";
 
 export default function CreateInviteCodeComponent() {
     const supabase = createClient();
@@ -31,24 +32,24 @@ export default function CreateInviteCodeComponent() {
     }, [supabase, user]);
         const handleCreateInviteCode = async () => {
         if (!inviteCode) {
-            alert("Please enter an invite code.");
+            alert(i18n.t('inviteCode.enterCodeAlert'));
             return;
         }
         const { error } = await supabase
             .from('household_invite_codes')
             .insert([{ code: inviteCode, household_id: user?.householdID }]);
         if (error) {
-            alert("Failed to create invite code. " + error.message);
+            alert(i18n.t('inviteCode.createError', { message: error.message }));
             setInviteCode("");
         } else {
-            alert("Invite code created successfully!");
+            alert(i18n.t('inviteCode.createSuccess'));
             setInviteCode("");
         }
     };
     const handleQuitHousehold = async () => {
         const userId = (await supabase.auth.getUser()).data.user?.id;
         if (!userId) {
-            alert("You must be logged in to quit a household.");
+            alert(i18n.t('inviteCode.loginRequired'));
             return;
         }
         const { error } = await supabase
@@ -56,25 +57,25 @@ export default function CreateInviteCodeComponent() {
             .delete()
             .eq('user_id', userId)
         if (error) {
-            alert("Failed to quit household: " + error.message);
+            alert(i18n.t('inviteCode.quitError', { message: error.message }));
             return;
         }
-        alert("You have successfully quit the household.");
+        alert(i18n.t('inviteCode.quitSuccess'));
         window.location.reload();
     }
     if (!isOwner) {
         return(
-            <Button variant="destructive" onClick={handleQuitHousehold}>Quit Household!</Button>
+            <Button variant="destructive" onClick={handleQuitHousehold}>{i18n.t('inviteCode.quitButton')}</Button>
         );
     }
     return (
         <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-            <h1 className="text-2xl font-bold">Create Invite Code</h1>
+            <h1 className="text-2xl font-bold">{i18n.t('inviteCode.title')}</h1>
             <div>
-            <Label className="text-lg font-semibold">Invite Code</Label>
-            <Input content={inviteCode} onChange={(e) => setInviteCode(e.target.value)} placeholder="Enter invite code" className="w-full max-w-xs" />
+            <Label className="text-lg font-semibold">{i18n.t('inviteCode.label')}</Label>
+            <Input value={inviteCode} onChange={(e) => setInviteCode(e.target.value)} placeholder={i18n.t('inviteCode.placeholder')} className="w-full max-w-xs" />
             <Button onClick={handleCreateInviteCode} className="mt-4" disabled={!inviteCode}>
-                Create Invite Code
+                {i18n.t('inviteCode.createButton')}
             </Button>
             </div>
         </div>

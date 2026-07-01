@@ -3,6 +3,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { CookingPot, Trash } from "lucide-react";
 import Image from "next/image";
 import Barcode from "react-barcode";
+import i18n from "@/lib/i18n";
 
 export type PresetOnTable = {
     id: number;
@@ -17,7 +18,7 @@ export type PresetOnTable = {
 export const columns: ColumnDef<PresetOnTable>[] = [
     {
         accessorKey: 'image',
-        header: 'Image',
+        header: i18n.t('presetColumns.image'),
         cell: ({ row }) => {
             const image = row.getValue('image');
             return typeof image === 'string' && image
@@ -27,19 +28,19 @@ export const columns: ColumnDef<PresetOnTable>[] = [
     },
     {
         accessorKey: 'name',
-        header: 'Name',
+        header: i18n.t('presetColumns.name'),
     },
     {
         accessorKey: 'unit',
-        header: 'Unit',
+        header: i18n.t('presetColumns.unit'),
     },
     {
         accessorKey: 'barcode',
-        header: 'Barcode',
+        header: i18n.t('presetColumns.barcode'),
         cell: ({ row }) => (
             row.getValue('barcode') && row.getValue('barcode') !== ''
                 ? <Barcode fontSize={12} height={25} width={1} margin={1} value={row.getValue('barcode')} />
-                : "N/A"
+                : i18n.t('presetColumns.noBarcode')
         )
     },
     {

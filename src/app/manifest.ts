@@ -1,10 +1,11 @@
 import type { MetadataRoute } from 'next'
+import i18n from '@/lib/i18n'
  
 export default function manifest(): MetadataRoute.Manifest {
   return {
     name: 'le garde manger',
     short_name: 'Garde Manger',
-    description: 'Grocery manger',
+    description: i18n.t('manifest.description'),
     start_url: '/groceries',
     display: 'standalone',
     background_color: '#ffffff',

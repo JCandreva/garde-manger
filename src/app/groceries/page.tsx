@@ -5,6 +5,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTrigger, DialogDescription, 
 import { CirclePlus } from "lucide-react";
 import GroceryList from "./groceryList";
 import HouseholdSetter from "@/components/householdSetter";
+import i18n from "@/lib/i18n";
 
 
 export default function Groceries() {
@@ -12,18 +13,18 @@ export default function Groceries() {
   return (
       <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
         <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-          <h2>Groceries</h2>
+        <h2>{i18n.t('groceries.title')}</h2>
           <HouseholdSetter />
           <GroceryList />
           <Dialog>
             <DialogTrigger asChild>
-              <Button><CirclePlus />Add</Button>
+            <Button><CirclePlus />{i18n.t('common.add')}</Button>
               </DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>Add a new grocery</DialogTitle>
+              <DialogTitle>{i18n.t('groceries.addDialogTitle')}</DialogTitle>
                 <DialogDescription>
-                  Add a new grocery item to your list.
+                {i18n.t('groceries.addDialogDescription')}
                 </DialogDescription>
               </DialogHeader>
               <NewGroceryForm />
@@ -31,13 +32,13 @@ export default function Groceries() {
           </Dialog>
           <Dialog>
             <DialogTrigger asChild>
-              <Button>Manage notifications</Button>
+            <Button>{i18n.t('groceries.notificationsButton')}</Button>
               </DialogTrigger>
           <DialogContent>
               <DialogHeader>
-                <DialogTitle>Manage notications</DialogTitle>
+              <DialogTitle>{i18n.t('groceries.notificationsDialogTitle')}</DialogTitle>
                 <DialogDescription>
-                  Manage expiration notifications for your groceries.
+                {i18n.t('groceries.notificationsDialogDescription')}
                 </DialogDescription>
               </DialogHeader>
               <NotificationManager />
@@ -49,7 +50,6 @@ export default function Groceries() {
   );
 }
 export const metadata = {
-  title: "garde manger | Groceries",
-  description: "Manage your groceries"
+  title: `${i18n.t('brand.name')} | ${i18n.t('groceries.title')}`,
+  description: i18n.t('metadata.groceries')
 };
-

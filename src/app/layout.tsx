@@ -7,6 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Card } from "@/components/ui/card";
+import i18n from "@/lib/i18n";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,11 +35,11 @@ const pathname = usePathname()
         <Provider store={store}>
             <Tabs value={pathname} className="w-full p-4">
           <TabsList className="w-full bg-gray-100">
-            <TabsTrigger value="title" disabled>le garde manger</TabsTrigger>
-            <TabsTrigger value="/groceries" asChild><Link href="/groceries">Groceries</Link></TabsTrigger>
-            <TabsTrigger value="/presets" asChild><Link href="/presets">Presets</Link></TabsTrigger>
-            <TabsTrigger value="/expirycalendar" asChild><Link href="/expirycalendar">Expiry Calendar</Link></TabsTrigger>
-            <TabsTrigger value="/household" asChild><Link href="/household">Household</Link></TabsTrigger>
+            <TabsTrigger value="title" disabled>{i18n.t('brand.name')}</TabsTrigger>
+            <TabsTrigger value="/groceries" asChild><Link href="/groceries">{i18n.t('nav.groceries')}</Link></TabsTrigger>
+            <TabsTrigger value="/presets" asChild><Link href="/presets">{i18n.t('nav.presets')}</Link></TabsTrigger>
+            <TabsTrigger value="/expirycalendar" asChild><Link href="/expirycalendar">{i18n.t('nav.expiryCalendar')}</Link></TabsTrigger>
+            <TabsTrigger value="/household" asChild><Link href="/household">{i18n.t('nav.household')}</Link></TabsTrigger>
           </TabsList>
           <TabsContent value={pathname}>
             <Card className="w-fit min-w-full min-h-full h-fit p-4">

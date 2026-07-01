@@ -5,6 +5,7 @@ import { Label } from "@/components/ui/label";
 import { useAppSelector } from "@/lib/hooks";
 import { createClient } from "@/utils/supabase/client";
 import { useEffect, useState } from "react";
+import i18n from "@/lib/i18n";
 
 export default function JoinHouseholdComponent(){
     const supabase = createClient();
@@ -32,11 +33,11 @@ export default function JoinHouseholdComponent(){
     const handleJoinHousehold = async () => {
         const userId = (await supabase.auth.getUser()).data.user?.id;
         if (!userId) {
-            alert("You must be logged in to join a household.");
+        alert(i18n.t('joinHousehold.loginRequired'));
             return;
         }
         if (!inviteCode) {
-            alert("Please enter an invite code.");
+        alert(i18n.t('joinHousehold.enterCodeAlert'));
             return;
         }
         const { data, error } = await supabase
@@ -45,12 +46,12 @@ export default function JoinHouseholdComponent(){
             .eq('code', inviteCode)
             .single();
         if (error) {
-            alert("Failed to join household: " + error.message);
+            alert(i18n.t('joinHousehold.joinError', { message: error.message }));
             setInviteCode("");
             return;
         }
         if (!data) {
-            alert("Invalid invite code. Please check and try again.");
+            alert(i18n.t('joinHousehold.invalidCode'));
             setInviteCode("");
             return;
         }
@@ -62,11 +63,11 @@ export default function JoinHouseholdComponent(){
             _used_join_code: inviteCode
         })
         if (joinError) {
-            alert("Failed to join household: " + joinError.message);
+            alert(i18n.t('joinHousehold.joinError', { message: joinError.message }));
             setInviteCode("");
             return;
         }
-            alert("Successfully joined the household!");
+            alert(i18n.t('joinHousehold.success'));
             setInviteCode("");  
             window.location.reload();
      
@@ -76,11 +77,11 @@ export default function JoinHouseholdComponent(){
     }
     return (
         <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-            <h2 className="text-2xl font-bold">Join Household</h2>
+            <h2 className="text-2xl font-bold">{i18n.t('joinHousehold.title')}</h2>
             <div>
-                <Label className="text-lg font-semibold">Invite Code</Label>
+                <Label className="text-lg font-semibold">{i18n.t('joinHousehold.label')}</Label>
                 <Input value={inviteCode} onChange={(e) => setInviteCode(e.target.value)} />
-                <Button onClick={handleJoinHousehold}>Join Household</Button>
+                <Button onClick={handleJoinHousehold}>{i18n.t('joinHousehold.joinButton')}</Button>
             </div>
         </div>
     );

@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { subscribeUser, unsubscribeUser, sendNotification } from '@/app/actions'
 import { Button } from './ui/button'
+import i18n from '@/lib/i18n'
  
 function urlBase64ToUint8Array(base64String: string) {
   const padding = '='.repeat((4 - (base64String.length % 4)) % 4)
@@ -50,7 +51,7 @@ function PushNotificationManager() {
     setSubscription(sub)
     const serializedSub = JSON.parse(JSON.stringify(sub))
     await subscribeUser(serializedSub)
-    await sendNotification('garde manger', 'You have subscribed to push notifications!')
+    await sendNotification(i18n.t('brand.name'), i18n.t('notifications.subscribedBody'))
   }
  
   async function unsubscribeFromPush() {
@@ -61,21 +62,21 @@ function PushNotificationManager() {
  
  
   if (!isSupported) {
-    return <p>Push notifications are not supported in this browser.</p>
+    return <p>{i18n.t('notifications.pushSupported')}</p>
   }
  
   return (
     <div>
-      <h3>Push Notifications</h3>
+      <h3>{i18n.t('notifications.pushHeading')}</h3>
       {subscription ? (
         <>
-          <p>You are subscribed to push notifications.</p>
-          <Button onClick={unsubscribeFromPush}>Unsubscribe</Button>
+          <p>{i18n.t('notifications.subscribed')}</p>
+          <Button onClick={unsubscribeFromPush}>{i18n.t('notifications.unsubscribe')}</Button>
         </>
       ) : (
         <>
-          <p>You are not subscribed to push notifications.</p>
-          <Button onClick={subscribeToPush}>Subscribe</Button>
+          <p>{i18n.t('notifications.unsubscribed')}</p>
+          <Button onClick={subscribeToPush}>{i18n.t('notifications.subscribe')}</Button>
         </>
       )}
     </div>
@@ -101,21 +102,10 @@ function InstallPrompt() {
  
   return (
     <div>
-      <h3>Install App</h3>
-      <button>Add to Home Screen</button>
+      <h3>{i18n.t('notifications.installHeading')}</h3>
+      <button>{i18n.t('notifications.installButton')}</button>
       {isIOS && (
-        <p>
-          To install this app on your iOS device, tap the share button
-          <span role="img" aria-label="share icon">
-            {' '}
-            ⎋{' '}
-          </span>
-          and then &quot;Add to Home Screen&quot;
-          <span role="img" aria-label="plus icon">
-            {' '}
-            ➕{' '}
-          </span>.
-        </p>
+        <p>{i18n.t('notifications.iosInstall')}</p>
       )}
     </div>
   )

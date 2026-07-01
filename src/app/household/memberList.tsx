@@ -5,6 +5,7 @@ import type { Database } from '@/database.types';
 import type { PostgrestError } from '@supabase/supabase-js';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useAppSelector } from '@/lib/hooks';
+import i18n from '@/lib/i18n';
 
 export default function MemberList() {
     // Adjust the type below to match your actual row type
@@ -40,7 +41,7 @@ export default function MemberList() {
     }, [supabase, user]);
     return (
         <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-            <h2 className="text-2xl font-bold">Household Members</h2>
+            <h2 className="text-2xl font-bold">{i18n.t('household.membersTitle')}</h2>
             {loading ? <Skeleton className="w-full h-10" /> : 
                 members.map((member) => (
                     <div key={member.id} className="flex flex-col items-center">

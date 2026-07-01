@@ -8,6 +8,7 @@ import { Scanner } from "@yudiel/react-qr-scanner";
 import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription, DialogHeader, DialogClose, DialogFooter } from "./ui/dialog";
 import { Label } from "./ui/label";
 import { createClient } from "@/utils/supabase/client";
+import i18n from "@/lib/i18n";
 
 export default function NewGroceryForm() {
   const [groceryName, setGroceryName] = useState("");
@@ -55,20 +56,20 @@ export default function NewGroceryForm() {
         type="text"
         value={groceryName}
         onChange={(e) => setGroceryName(e.target.value)}
-        placeholder="Grocery name"
+        placeholder={i18n.t('presetForm.namePlaceholder')}
       />
       <Input
         type="text"
         value={groceryUnit}
         onChange={(e) => setGroceryUnit(e.target.value)}
-        placeholder="Measurement unit"
+        placeholder={i18n.t('presetForm.unitPlaceholder')}
       />
     <div className="flex flex-row gap-2">
       <Input
         type="text"
         value={groceryBarcode}
         onChange={(e) => setGroceryBarcode(e.target.value)}
-        placeholder="Barcode(optional)"
+        placeholder={i18n.t('presetForm.barcodePlaceholder')}
       />
       <Dialog open={scannerOpen} onOpenChange={setScannerOpen}>
         <DialogTrigger asChild>
@@ -76,9 +77,9 @@ export default function NewGroceryForm() {
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Scan Barcode</DialogTitle>
+            <DialogTitle>{i18n.t('presetForm.scanTitle')}</DialogTitle>
             <DialogDescription>
-              Scan the barcode of the grocery item.
+              {i18n.t('presetForm.scanDescription')}
             </DialogDescription>
           </DialogHeader>
           <Scanner formats={[
@@ -108,13 +109,13 @@ export default function NewGroceryForm() {
       </Dialog>
       </div>
       <div>
-      <Label>Image(optional)</Label>
+      <Label>{i18n.t('presetForm.imageLabel')}</Label>
       <Input type="file" onChange={(e) => setGroceryImage(e.target.files ? e.target.files[0] : null)} />
       </div>
       <DialogFooter>
       <DialogClose asChild className="w-full">
       <Button type="submit">
-        <CirclePlus /> Add Preset
+        <CirclePlus /> {i18n.t('presetForm.submit')}
       </Button>
       </DialogClose>
       </DialogFooter>

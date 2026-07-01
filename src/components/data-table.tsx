@@ -26,6 +26,7 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import i18n from "@/lib/i18n";
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
@@ -62,14 +63,14 @@ export function DataTable<TData, TValue>({
         <div className="p-4">
             <div className="flex items-center justify-between mb-4">
                 <Input
-                    placeholder="Filter..."
+                    placeholder={i18n.t('dataTable.filterPlaceholder')}
                     value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
                     onChange={e => table.getColumn('name')?.setFilterValue(e.target.value)}
                     className="w-1/3"
                 />
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button variant="outline">Columns</Button>
+                        <Button variant="outline">{i18n.t('dataTable.columnsButton')}</Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
                         {table
@@ -84,7 +85,7 @@ export function DataTable<TData, TValue>({
                                 onCheckedChange={(value) =>
                                     column.toggleVisibility(!!value)
                                 }>
-                                    {column.id}
+                                    {i18n.t(`table.${column.id}`, { defaultValue: column.id })}
                                 </DropdownMenuCheckboxItem>
                         ))
                             }
@@ -132,7 +133,7 @@ export function DataTable<TData, TValue>({
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
             >
-                <ArrowLeft />Previous
+                <ArrowLeft />{i18n.t('dataTable.previous')}
             </Button>
             <Button
             variant="outline"
@@ -140,7 +141,7 @@ export function DataTable<TData, TValue>({
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
             >
-                Next<ArrowRight />
+                {i18n.t('dataTable.next')}<ArrowRight />
             </Button>
             </div>
         </div>
